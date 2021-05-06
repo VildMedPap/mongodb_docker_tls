@@ -81,8 +81,69 @@ db.createUser({
 });
 ```
 
-## Build it 🏗
+### Build it 🏗
 
 ```sh
 docker-compose up
 ```
+
+## How to connect to the MongoDB
+
+First of all, you need access to the created certificate on the machine you try to connect from.
+
+### Through mongo client
+
+[Install mongo client](https://docs.mongodb.com/mongocli/stable/install/) and then run the command (type in the public IP address of the server hosting the MongoDB container instead of `xx.xx.xx.xx`)
+
+```sh
+mongo -u user -p pass --authenticationDatabase admin --tls --tlsCAFile mongodb.pem xx.xx.xx.xx
+```
+
+### Through python (`pymongo`)
+
+Install `pymongo` with `conda install -c anaconda pymongo` or `pip install pymongo` and use these configurations
+
+```python
+import pymongo
+
+configs = {
+    "username": "root",
+    "password": "secret",
+    "host": "xx.xx.xx.xx",
+    "port": 27017,
+    "tls": True,
+    "tlsAllowInvalidCertificates": True,
+    "tlsCAFile": 'mongodb.pem'
+}
+
+client = pymongo.MongoClient(**configs)
+
+client.list_database_names()
+>> ['admin', 'config', 'local']
+```
+
+### Through javascript (`mongoose`)
+
+```javascript
+const fs = require("fs");
+const mongoose = require("mongoose");
+
+await mongoose.connect(
+    "mongodb://user:pass@xx.xx.xx.xx:27017/?authSource=admin",
+    {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+        ssl: true,
+        sslValidate: true,
+        sslCA: fs.readFileSync(`${__dirname}/mongodb.pem`),
+    }
+);
+```
+
+### Through MongoDB Compass
+
+Unfortunately, it is not possible to connect to MongoDB Compass with self-signed certificate. You are still able to connect, but only in an unvalidated and insecure way
+
+![MongoDB Compass Hostname Settings](img/compass_1.png)
+
+![MongoDB Compass More Options Settings](img/compass_2.png)
