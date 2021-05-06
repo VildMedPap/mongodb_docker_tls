@@ -124,6 +124,8 @@ client.list_database_names()
 >> ['admin', 'config', 'local']
 ```
 
+_Note: the `tlsAllowInvalidCertificates` doesn't mean, the traffic will not be encrypted. It just allow self-signed certificates._
+
 ### Through javascript (`mongoose`)
 
 ```javascript
