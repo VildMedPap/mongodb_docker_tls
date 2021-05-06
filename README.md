@@ -96,8 +96,10 @@ First of all, you need access to the created certificate on the machine you try 
 [Install mongo client](https://docs.mongodb.com/mongocli/stable/install/) and then run the command (type in the public IP address of the server hosting the MongoDB container instead of `xx.xx.xx.xx`)
 
 ```sh
-mongo -u user -p pass --authenticationDatabase admin --tls --tlsCAFile mongodb.pem xx.xx.xx.xx
+mongo -u user -p pass --authenticationDatabase admin --host xx.xx.xx.xx --port 27017 --tls --tlsCAFile mongodb.pem
 ```
+
+_[What does the command do?](https://explainshell.com/explain?cmd=mongo+-u+user+-p+pass+--authenticationDatabase+admin+--host+xx.xx.xx.xx+--port+27017+--tls+--tlsCAFile+mongodb.pem)_
 
 ### Through python (`pymongo`)
 
