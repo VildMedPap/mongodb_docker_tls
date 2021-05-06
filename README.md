@@ -109,8 +109,8 @@ Install `pymongo` with `conda install -c anaconda pymongo` or `pip install pymon
 import pymongo
 
 configs = {
-    "username": "root",
-    "password": "secret",
+    "username": "user",
+    "password": "pass",
     "host": "xx.xx.xx.xx",
     "port": 27017,
     "tls": True,
