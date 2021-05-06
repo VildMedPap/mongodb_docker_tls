@@ -1,0 +1,17 @@
+version: "3.9"
+services:
+    database:
+        image: "mongo:latest"
+        container_name: "mongodb"
+        env_file:
+            - ./config/mongo.env
+        ports:
+            - "27017:27017"
+        volumes:
+            - ./data/log/:/var/log/mongodb/
+            - ./data/db/:/data/db/
+            - ./config/ssl/:/etc/ssl/
+            - ./config/mongod.conf:/etc/mongod.conf
+            - ./config/init-mongo-users.sh:/docker-entrypoint-initdb.d/init-mongo.sh:ro
+        restart: unless-stopped
+        command: ["--config", "/etc/mongod.conf"]
